@@ -1,0 +1,3 @@
+# This file is kept for reference only.
+# The app is now deployed entirely on Vercel (frontend + backend serverless).
+# See vercel.json for the deployment configuration.
