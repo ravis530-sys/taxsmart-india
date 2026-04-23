@@ -13,9 +13,14 @@ const PORT = process.env.PORT ?? 5000;
 // ── Security middleware ───────────────────────────────────────────────────────
 app.use(helmet());
 
-const allowedOrigins = process.env.CLIENT_ORIGIN
-  ? process.env.CLIENT_ORIGIN.split(',')
-  : ['http://localhost:5173', 'http://localhost:5174'];
+// Vercel automatically exposes VERCEL_URL (e.g. "taxsmart-india.vercel.app") on every deployment.
+// We also accept any CLIENT_ORIGIN override and the local dev servers.
+const allowedOrigins: string[] = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  ...(process.env.CLIENT_ORIGIN ? process.env.CLIENT_ORIGIN.split(',').map(o => o.trim()) : []),
+  ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+];
 
 app.use(
   cors({
