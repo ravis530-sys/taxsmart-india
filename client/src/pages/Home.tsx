@@ -99,7 +99,7 @@ const Home: React.FC = () => {
         <p>TaxSmart India — Free Tax Calculator for FY 2025-26</p>
         <p className="mt-1">
           Not a substitute for professional CA advice. File returns at{' '}
-          <a href="https://incometax.gov.in" className="underline text-gray-300" target="_blank" rel="noopener noreferrer">incometax.gov.in</a>
+          <a href="https://www.incometaxindia.gov.in" className="underline text-gray-300" target="_blank" rel="noopener noreferrer">incometax.gov.in</a>
         </p>
       </footer>
     </div>
