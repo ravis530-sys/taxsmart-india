@@ -92,7 +92,7 @@ const WizardLayout: React.FC<WizardLayoutProps> = ({
         {/* Disclaimer */}
         <p className="text-center text-xs text-gray-400 mt-4">
           For guidance only. Consult a CA for final tax filing. File at{' '}
-          <a href="https://incometax.gov.in" target="_blank" rel="noopener noreferrer" className="underline">
+          <a href="https://www.incometaxindia.gov.in" target="_blank" rel="noopener noreferrer" className="underline">
             incometax.gov.in
           </a>
         </p>
