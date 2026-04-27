@@ -274,7 +274,7 @@ const Step6Results: React.FC = () => {
         <div className="card mt-6 bg-blue-50 border border-blue-100">
           <h3 className="font-semibold text-blue-900 mb-2">📋 Next Steps to File ITR</h3>
           <ol className="list-decimal list-inside space-y-1 text-sm text-blue-800">
-            <li>Login to <a href="https://incometax.gov.in" className="underline" target="_blank" rel="noopener noreferrer">incometax.gov.in</a></li>
+            <li>Login to <a href="https://www.incometaxindia.gov.in" className="underline" target="_blank" rel="noopener noreferrer">incometax.gov.in</a></li>
             <li>Go to e-File → File Income Tax Return → Select AY 2026-27</li>
             <li>Choose the recommended form: <strong>{result.recommendation.preferredRegime === 'new' ? result.newRegime.itrFormRecommended : result.oldRegime.itrFormRecommended}</strong></li>
             <li>Verify details from Form 26AS / AIS match your entries</li>
