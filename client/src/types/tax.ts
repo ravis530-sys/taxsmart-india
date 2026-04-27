@@ -159,6 +159,7 @@ export interface TaxInput {
   taxPaid: TaxPaid;
   broughtForwardLoss?: BroughtForwardLoss;
   regimeChoice?: 'new' | 'old';
+  hasForm16?: boolean; // user declares they have Form 16 from employer
 }
 
 // ── Result types ──────────────────────────────────────────────────────────────

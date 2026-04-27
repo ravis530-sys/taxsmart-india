@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTaxStore } from '../../store/taxStore';
 import WizardLayout from '../../components/WizardLayout';
 import InputField from '../../components/InputField';
@@ -8,6 +8,7 @@ const num = (v: unknown) => (v as number) ?? 0;
 
 const Step2Income: React.FC = () => {
   const { formData, updateFormData, nextStep, prevStep } = useTaxStore();
+  const [guideOpen, setGuideOpen] = useState(false);
   const userType = formData.userType ?? 'salaried';
   const salary = formData.salaryIncome ?? ({} as SalaryIncome);
   const biz = formData.businessIncome ?? ({} as BusinessIncome);
@@ -24,6 +25,7 @@ const Step2Income: React.FC = () => {
   const isBiz = userType === 'business';
   const isFreelancer = userType === 'freelancer' || userType === 'self_employed';
 
+
   return (
     <WizardLayout
       title="Income Details"
@@ -35,6 +37,72 @@ const Step2Income: React.FC = () => {
       {isSalaried && (
         <section>
           <h3 className="section-title">💼 Salary Income</h3>
+
+          {/* ── Form 16 Guidance Card ──────────────────────────────── */}
+          <div className="mb-5 rounded-xl border border-blue-200 bg-blue-50">
+            {/* Checkbox row */}
+            <label className="flex items-center gap-3 px-4 py-3 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+                checked={formData.hasForm16 ?? false}
+                onChange={(e) => updateFormData({ hasForm16: e.target.checked })}
+              />
+              <span className="text-sm font-semibold text-blue-900">
+                I have Form 16 from my employer
+              </span>
+              <span className="ml-auto text-xs text-blue-500 font-medium">
+                {formData.hasForm16 ? '✓ noted for your ITR report' : ''}
+              </span>
+            </label>
+
+            {/* Guidance toggle */}
+            <div className="border-t border-blue-100">
+              <button
+                type="button"
+                onClick={() => setGuideOpen((o) => !o)}
+                className="w-full flex items-center justify-between px-4 py-2 text-xs font-medium text-blue-700 hover:bg-blue-100 transition-colors"
+              >
+                <span>📄 How to use Form 16 to fill this form</span>
+                <span>{guideOpen ? '▲ Hide' : '▼ Show'}</span>
+              </button>
+
+              {guideOpen && (
+                <div className="px-4 pb-4 pt-1 text-xs text-blue-900 space-y-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="bg-white rounded-lg p-3 border border-blue-100">
+                      <p className="font-semibold text-blue-800 mb-1">Part B — Salary Breakdown</p>
+                      <ul className="space-y-1 text-blue-700">
+                        <li>• <b>Basic Salary</b> → look for "Basic Pay" or "Basic Salary" row</li>
+                        <li>• <b>HRA Received</b> → "House Rent Allowance" component (not the exempt portion)</li>
+                        <li>• <b>LTA</b> → "Leave Travel Allowance / Concession"</li>
+                        <li>• <b>Special Allowance</b> → "Special / Performance Allowance"</li>
+                        <li>• <b>Professional Tax</b> → Sec 16(iii) deduction row</li>
+                        <li>• <b>EPF Employee</b> → "PF / Provident Fund" deduction</li>
+                      </ul>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 border border-blue-100">
+                      <p className="font-semibold text-blue-800 mb-1">Part B — Key Summary Figures</p>
+                      <ul className="space-y-1 text-blue-700">
+                        <li>• <b>Gross Salary</b> → "Salary as per Sec 17(1)" — use this to cross-check your total</li>
+                        <li>• <b>Income chargeable under Salaries</b> → your <em>taxable salary</em> after standard deduction</li>
+                        <li>• Enter each allowance separately above for the most accurate calculation</li>
+                      </ul>
+                      <p className="font-semibold text-blue-800 mt-2 mb-1">Part A — TDS</p>
+                      <ul className="space-y-1 text-blue-700">
+                        <li>• <b>Total TDS Deducted</b> → enter in Step 5 (TDS &amp; Tax Paid) under "TDS on Salary"</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <p className="text-blue-500 italic">
+                    Tip: Part A is TRACES-generated; Part B is issued by your employer and shows the full salary &amp; deduction split.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          {/* ── End Form 16 Guidance Card ──────────────────────────── */}
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
             <InputField label="Basic Salary" type="number" prefix="₹" value={num(salary.basicSalary) || ''} onChange={(e) => patchSalary({ basicSalary: +e.target.value })} hint="Annual basic from salary slip" />
             <InputField label="HRA Received" type="number" prefix="₹" value={num(salary.hra) || ''} onChange={(e) => patchSalary({ hra: +e.target.value })} hint="House Rent Allowance (annual)" />

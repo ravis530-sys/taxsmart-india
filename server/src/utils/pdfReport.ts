@@ -87,6 +87,20 @@ export function generateTaxReport(
     doc.fontSize(10).font('Helvetica').fillColor('#374151')
       .text(`Recommended Form: ${preferred.itrFormRecommended}`)
       .text(`Reason: ${preferred.itrFormReason}`);
+
+    // Form 16 declaration note
+    if (input.hasForm16) {
+      doc.moveDown(0.5);
+      doc.fontSize(10).font('Helvetica-Bold').fillColor('#1e40af')
+        .text('Form 16 Declaration');
+      doc.fontSize(10).font('Helvetica').fillColor('#374151')
+        .text('The taxpayer has confirmed possession of Form 16 from their employer.')
+        .text('Before filing your ITR, cross-check the following with your Form 16:')
+        .text('  • Part B → "Income chargeable under Salaries" should match the taxable salary in this report.')
+        .text('  • Part B → Individual allowance rows (Basic, HRA, LTA, Special Allowance, Professional Tax, EPF).')
+        .text('  • Part A → Total TDS deducted should match the TDS credit shown in this report.')
+        .text('  • Verify your employer\'s TAN and your PAN on both Part A and Part B.');
+    }
     doc.moveDown();
 
     // ── Take-Home Salary (salaried only) ─────────────────────────────────────

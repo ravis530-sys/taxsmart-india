@@ -199,6 +199,7 @@ export interface TaxInput {
    * For persons WITHOUT business income: can switch year-to-year.
    */
   regimeChoice?: 'new' | 'old'; // explicit opt-in / opt-out choice (informational for calc)
+  hasForm16?: boolean;           // user declares they have Form 16 from employer
 }
 
 // ─── Calculation Results ────────────────────────────────────────────────────────
