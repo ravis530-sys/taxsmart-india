@@ -25,7 +25,7 @@ interface TaxStore {
   nextStep: () => void;
   prevStep: () => void;
   updateFormData: (patch: Partial<TaxInput>) => void;
-  setResult: (result: TaxCalculationResult) => void;
+  setResult: (result: TaxCalculationResult | null) => void;
   setCalculating: (v: boolean) => void;
   setError: (err: string | null) => void;
   reset: () => void;

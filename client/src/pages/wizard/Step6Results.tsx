@@ -14,10 +14,11 @@ const Step6Results: React.FC = () => {
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (hasFetched.current || result) return;
+    if (hasFetched.current) return;
     hasFetched.current = true;
 
     const calculate = async () => {
+      setResult(null);
       setCalculating(true);
       setError(null);
       try {
