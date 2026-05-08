@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import calculateRouter from './routes/calculate';
+import capitalGainsRouter from './routes/capitalGainsUpload';
+import tdsRouter from './routes/tdsUpload';
 
 dotenv.config();
 
@@ -49,6 +51,8 @@ app.use(express.json({ limit: '100kb' }));
 
 // ── Routes ─────────────────────────────────────────────────────────────────────
 app.use('/api/calculate', calculateRouter);
+app.use('/api/capital-gains', capitalGainsRouter);
+app.use('/api/tds', tdsRouter);
 
 // Health check
 app.get('/api/health', (_req, res) => {
