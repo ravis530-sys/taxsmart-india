@@ -24,7 +24,14 @@ export interface SalaryIncome {
   rentPaidMonthly: number;
   cityType: 'metro' | 'non_metro';
   professionalTax: number;
-  epfContribution: number;
+  epfContribution: number;            // employee EPF (auto: 12% of basic)
+  vpfContribution: number;            // Voluntary PF (above mandatory EPF)
+  vpfPercent: number;                 // VPF as % of basic (0–100)
+  npsEmployerPercent: number;         // employer NPS rate: 10 or 14
+  companyHealthInsuranceOptedIn: boolean;  // employer-sponsored family insurance
+  companyHealthInsurance: number;     // annual premium deducted from salary
+  parentsInsuranceOptedIn: boolean;   // opted for parents insurance via employer
+  parentsInsurancePremium: number;    // annual parents insurance deducted from salary
 }
 
 export interface BusinessIncome {

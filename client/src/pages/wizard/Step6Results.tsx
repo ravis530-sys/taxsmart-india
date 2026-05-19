@@ -107,11 +107,18 @@ const Step6Results: React.FC = () => {
       (s.specialAllowance ?? 0) + (s.otherAllowances ?? 0)
     : 0;
   const epfDeducted = s?.epfContribution ?? 0;
+  const vpfDeducted = s?.vpfContribution ?? 0;
   const ptDeducted = s?.professionalTax ?? 0;
+  const companyInsuranceMonthly = s?.companyHealthInsuranceOptedIn ? (s?.companyHealthInsurance ?? 0) : 0;
+  const parentsInsuranceMonthly = s?.parentsInsuranceOptedIn ? (s?.parentsInsurancePremium ?? 0) : 0;
+  // stored values are monthly; multiply ×12 for annual deduction
+  const companyInsuranceDeducted = companyInsuranceMonthly * 12;
+  const parentsInsuranceDeducted = parentsInsuranceMonthly * 12;
+  const totalSalaryDeductions = epfDeducted + vpfDeducted + ptDeducted + companyInsuranceDeducted + parentsInsuranceDeducted;
 
   const takeHome = (taxLiability: number) => ({
-    annual: grossSalary - taxLiability - epfDeducted - ptDeducted,
-    monthly: (grossSalary - taxLiability - epfDeducted - ptDeducted) / 12,
+    annual: grossSalary - taxLiability - totalSalaryDeductions,
+    monthly: (grossSalary - taxLiability - totalSalaryDeductions) / 12,
   });
 
   const newTH = takeHome(result.newRegime.totalTaxLiability);
@@ -140,20 +147,41 @@ const Step6Results: React.FC = () => {
           <div className="card mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200">
             <h3 className="font-semibold text-green-900 mb-4">💰 Estimated Take-Home Salary</h3>
 
-            {/* Shared row: Gross, EPF, PT */}
-            <div className="grid grid-cols-3 gap-3 mb-5 bg-white rounded-xl p-3 border border-green-100">
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">Gross Annual Salary</p>
-                <p className="text-base font-bold text-gray-800">{inr(grossSalary)}</p>
+            {/* Shared row: Gross + salary deductions */}
+            <div className="bg-white rounded-xl p-3 border border-green-100 mb-5">
+              <div className="grid grid-cols-3 gap-3 mb-3">
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 mb-1">Gross Annual Salary</p>
+                  <p className="text-base font-bold text-gray-800">{inr(grossSalary)}</p>
+                </div>
+                <div className="text-center border-x border-gray-100">
+                  <p className="text-xs text-gray-500 mb-1">EPF {vpfDeducted > 0 ? '+ VPF' : ''}</p>
+                  <p className="text-base font-bold text-orange-600">− {inr((epfDeducted + vpfDeducted) / 12)}/mo</p>
+                  <p className="text-xs text-gray-400">{inr(epfDeducted + vpfDeducted)}/yr</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-xs text-gray-500 mb-1">Professional Tax</p>
+                  <p className="text-base font-bold text-orange-600">− {inr(ptDeducted)}</p>
+                </div>
               </div>
-              <div className="text-center border-x border-gray-100">
-                <p className="text-xs text-gray-500 mb-1">EPF (Employee)</p>
-                <p className="text-base font-bold text-orange-600">− {inr(epfDeducted)}</p>
-              </div>
-              <div className="text-center">
-                <p className="text-xs text-gray-500 mb-1">Professional Tax</p>
-                <p className="text-base font-bold text-orange-600">− {inr(ptDeducted)}</p>
-              </div>
+              {(companyInsuranceDeducted > 0 || parentsInsuranceDeducted > 0) && (
+                <div className={`grid gap-3 pt-3 border-t border-gray-100 ${companyInsuranceDeducted > 0 && parentsInsuranceDeducted > 0 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                  {companyInsuranceDeducted > 0 && (
+                    <div className="text-center">
+                      <p className="text-xs text-gray-500 mb-1">Family Health Insurance</p>
+                      <p className="text-base font-bold text-orange-600">− {inr(companyInsuranceMonthly)}/mo</p>
+                      <p className="text-xs text-gray-400">{inr(companyInsuranceDeducted)}/yr</p>
+                    </div>
+                  )}
+                  {parentsInsuranceDeducted > 0 && (
+                    <div className={`text-center ${companyInsuranceDeducted > 0 ? 'border-l border-gray-100' : ''}`}>
+                      <p className="text-xs text-gray-500 mb-1">Parents Insurance</p>
+                      <p className="text-base font-bold text-orange-600">− {inr(parentsInsuranceMonthly)}/mo</p>
+                      <p className="text-xs text-gray-400">{inr(parentsInsuranceDeducted)}/yr</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {/* Single regime mode */}

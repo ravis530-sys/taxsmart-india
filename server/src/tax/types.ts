@@ -28,7 +28,14 @@ export interface SalaryIncome {
   cityType: 'metro' | 'non_metro'; // metro = 50% HRA exempt, non_metro = 40%
   // From Form 16
   professionalTax: number;
-  epfContribution: number; // employee share
+  epfContribution: number; // employee share (auto: 12% of basic)
+  vpfContribution?: number; // Voluntary PF (above mandatory EPF)
+  vpfPercent?: number;      // VPF as % of basic for UI
+  npsEmployerPercent?: number; // employer NPS rate: 10 or 14
+  companyHealthInsuranceOptedIn?: boolean;
+  companyHealthInsurance?: number;    // annual premium deducted from salary
+  parentsInsuranceOptedIn?: boolean;
+  parentsInsurancePremium?: number;   // annual parents insurance deducted from salary
 }
 
 export interface BusinessIncome {

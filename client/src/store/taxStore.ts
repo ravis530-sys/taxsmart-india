@@ -38,7 +38,10 @@ const makeDefault = () => ({
   residentialStatus: 'resident' as const,
   salaryIncome: {
     basicSalary: 0, hra: 0, lta: 0, specialAllowance: 0, otherAllowances: 0,
-    rentPaidMonthly: 0, cityType: 'non_metro' as const, professionalTax: 0, epfContribution: 0,
+    rentPaidMonthly: 0, cityType: 'non_metro' as const, professionalTax: 0,
+    epfContribution: 0, vpfContribution: 0, vpfPercent: 0, npsEmployerPercent: 10,
+    companyHealthInsuranceOptedIn: false, companyHealthInsurance: 0,
+    parentsInsuranceOptedIn: false, parentsInsurancePremium: 0,
   },
   businessIncome: {
     grossReceipts: 0, scheme: 'regular' as const, businessType: 'digital' as const,
